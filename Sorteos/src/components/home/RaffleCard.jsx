@@ -19,7 +19,7 @@ export const RaffleCard = ({ image,alt, name, description = [], characteristics 
         </Card.Description>
         <HStack mt="4">
         {characteristics.map((item, index) => (
-    <Badges>{item}</Badge>
+    <Badges>{item}</Badges>
   ))}
         </HStack>
       </Card.Body>
