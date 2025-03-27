@@ -7,10 +7,7 @@ const RaffleItems = [
       "Se puede subir un listado en formato csv o pegar un listado copiado",
       "Se puede elegir la cantidad de ganadores/suplentes",
     ],
-    characteristics: [
-      "Limite: 100 participantes",
-      "Duracion: Hasta 1 minuto",
-    ],
+    characteristics: ["Limite: 1000 participantes", "Duracion: Hasta 1 minuto"],
   },
   {
     name: "Ruleta",
@@ -21,10 +18,7 @@ const RaffleItems = [
       "Se genera un solo ganador por tirada",
       "Se puede elegir modo de ganador: ganador por primera tirada o ganador por ultima tirada",
     ],
-    characteristics: [
-      "Limite: 25 participantes",
-      "Duracion: Modificable",
-    ],
+    characteristics: ["Limite: 25 participantes", "Duracion: Modificable"],
   },
   {
     name: "Carrera de Patos",
@@ -34,13 +28,9 @@ const RaffleItems = [
       "Ingresa un listado de participantes o subelo en formato csv ",
       "Avanza hasta la meta y gana el sorteo",
     ],
-    characteristics: [
-      "Limite: 10 participantes",
-      "Duracion: Modificable",
-    ],
+    characteristics: ["Limite: 10 participantes", "Duracion: Modificable"],
     redirect: "/duck-race",
   },
-
 ];
 
 export default RaffleItems;

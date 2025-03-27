@@ -7,13 +7,13 @@ const NavBar = () => {
       <Flex align="center" py={4}>
         Sorteos
         <Spacer />
-        <Button variant="link"  mr={4}>
-          <a href="#inicio">Inicio</a>
+        <Button variant="link" mr={4}>
+          <a href="/#inicio">Inicio</a>
         </Button>
-        <Button variant="link" >
-          <a href="#sorteos">Sorteos Disponibles</a>
+        <Button variant="link">
+          <a href="/#sorteos">Sorteos Disponibles</a>
         </Button>
-        <Color/>
+        <Color />
       </Flex>
     </Box>
   );

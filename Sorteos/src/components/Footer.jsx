@@ -3,7 +3,7 @@ import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <Box as="footer" bg="gray.800" color="white" py={4} mt={8}>
+    <Box as="footer" bg="gray.800" color="white" py={4} mt="auto">
       <Flex justify="center" gap={4}>
         <Link href="https://www.linkedin.com/in/tu-perfil" isExternal>
           <IconButton
