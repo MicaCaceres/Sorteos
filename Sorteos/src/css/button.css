@@ -1,0 +1,146 @@
+/* Base button styles */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border-radius: 6px;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+}
+
+.button:focus-visible {
+  outline: 2px solid #0070f3;
+  outline-offset: 2px;
+}
+
+/* Button variants */
+.button-variant-default {
+  background-color: #0f172a;
+  color: white;
+}
+
+.button-variant-default:hover:not(.button-disabled) {
+  background-color: #1e293b;
+}
+
+.button-variant-destructive {
+  background-color: #ef4444;
+  color: white;
+}
+
+.button-variant-destructive:hover:not(.button-disabled) {
+  background-color: #dc2626;
+}
+
+.button-variant-outline {
+  background-color: transparent;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+}
+
+.button-variant-outline:hover:not(.button-disabled) {
+  background-color: #f8fafc;
+}
+
+.button-variant-secondary {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.button-variant-secondary:hover:not(.button-disabled) {
+  background-color: #e2e8f0;
+}
+
+.button-variant-ghost {
+  background-color: transparent;
+  color: #0f172a;
+}
+
+.button-variant-ghost:hover:not(.button-disabled) {
+  background-color: #f1f5f9;
+}
+
+.button-variant-link {
+  background-color: transparent;
+  color: #0284c7;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.button-variant-link:hover:not(.button-disabled) {
+  text-decoration: none;
+}
+
+/* Button sizes */
+.button-size-default {
+  height: 40px;
+  padding: 0 16px;
+}
+
+.button-size-sm {
+  height: 36px;
+  padding: 0 12px;
+  font-size: 13px;
+  border-radius: 4px;
+}
+
+.button-size-lg {
+  height: 44px;
+  padding: 0 32px;
+  font-size: 15px;
+}
+
+.button-size-icon {
+  height: 40px;
+  width: 40px;
+  padding: 0;
+}
+
+/* Disabled state */
+.button-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Custom classes for the duck race app */
+.button-green {
+  background-color: #16a34a;
+  color: white;
+}
+
+.button-green:hover:not(.button-disabled) {
+  background-color: #15803d;
+}
+
+.button-red {
+  color: #ef4444;
+  border-color: #fecaca;
+}
+
+.button-red:hover:not(.button-disabled) {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.button-full-width {
+  width: 100%;
+}
+
+.button-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.button-large-padding {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  font-size: 18px;
+}
