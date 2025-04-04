@@ -2,24 +2,30 @@ import { Box, Text, VStack, Flex, Button } from "@chakra-ui/react";
 import RaffleItems from "./utils/RaffleItems";
 import RaffleCard from "./RaffleCard";
 import DuckRace from "../raffles/DuckRace";
+import Carrousel from "./Carrousel";
 const Home = () => {
   return (
     <>
       <Box id="inicio" p={8}>
-        <Text fontSize="3xl" fontWeight="bold" textAlign={"center"}>
+        <Text
+          fontSize="3xl"
+          fontWeight="bold"
+          textAlign={"center"}
+          color="#2c2d68"
+        >
           Bienvenido a la Página de Sorteos
         </Text>
-        <Text mt={4} textAlign={"center"}>
+        {/* <Text mt={4} textAlign={"center"} color={"#4b4c9b"} fontWeight="bold">
           Aquí puedes ver nuestros sorteos disponibles.
-        </Text>
+        </Text> */}
       </Box>
-
+      <Carrousel />
       <Box id="sorteos" p={8}>
         <Text
           fontSize="3xl"
           fontWeight="bold"
-          color="teal.600"
           textAlign={"center"}
+          color="#2c2d68"
         >
           Sorteos Disponibles
         </Text>
@@ -32,6 +38,7 @@ const Home = () => {
               alt={item.alt}
               description={item.description}
               characteristics={item.characteristics}
+              redirect={item.redirect}
             />
           ))}
         </Flex>

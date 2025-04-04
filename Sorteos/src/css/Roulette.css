@@ -86,8 +86,8 @@ body {
 }
 
 .tab-button.active {
-  background-color: #3b82f6;
-  border-color: #3b82f6;
+  background-color: #2a1c78;
+  border-color: #0c1a30;
   color: white;
 }
 
@@ -131,12 +131,13 @@ body {
 }
 
 .button.primary {
-  background-color: #3b82f6;
+  background-color: #2a1c78;
+  border-color: #0c1a30;
   color: white;
 }
 
 .button.primary:hover {
-  background-color: #2563eb;
+  background-color: #0a1e4b;
 }
 
 .button.primary:disabled {

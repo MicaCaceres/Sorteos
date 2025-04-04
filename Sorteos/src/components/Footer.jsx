@@ -1,38 +1,34 @@
-import { Box, Flex, IconButton, Link } from "@chakra-ui/react";
+import React from "react";
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
+import "./../css/globals.css";
 
 const Footer = () => {
   return (
-    <Box as="footer" bg="gray.800" color="white" py={4} mt="auto">
-      <Flex justify="center" gap={4}>
-        <Link href="https://www.linkedin.com/in/tu-perfil" isExternal>
-          <IconButton
-            aria-label="LinkedIn"
-            icon={<FaLinkedin />}
-            size="lg"
-            colorScheme="blue"
-          />
-        </Link>
+    <footer className="footer">
+      <div className="icon-container">
+        <a
+          href="https://www.linkedin.com/in/micaela-caceres-b8b01628b/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="icon-button linkedin"
+        >
+          <FaLinkedin />
+        </a>
 
-        <Link href="https://github.com/tu-usuario" isExternal>
-          <IconButton
-            aria-label="GitHub"
-            icon={<FaGithub />}
-            size="lg"
-            colorScheme="gray"
-          />
-        </Link>
+        <a
+          href="https://github.com/MicaCaceres"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="icon-button github"
+        >
+          <FaGithub />
+        </a>
 
-        <Link href="mailto:tuemail@example.com">
-          <IconButton
-            aria-label="Email"
-            icon={<FaEnvelope />}
-            size="lg"
-            colorScheme="red"
-          />
-        </Link>
-      </Flex>
-    </Box>
+        <a href="mailto:mica.caceres@live.com" className="icon-button email">
+          <FaEnvelope />
+        </a>
+      </div>
+    </footer>
   );
 };
 

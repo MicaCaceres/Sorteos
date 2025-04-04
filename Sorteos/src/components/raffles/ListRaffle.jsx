@@ -1,32 +1,71 @@
-import {
-  VStack,
-  HStack,
-  Textarea,
-  Button,
-  Box,
-  Input,
-  Text,
-} from "@chakra-ui/react";
-import { useState } from "react";
-import { HiUpload } from "react-icons/hi";
+import { useState, useRef, useEffect } from "react";
+import "../../css/Roulette.css";
 
-export function ListRaffle() {
-  const [participantes, setParticipantes] = useState([]);
-  const [textareaValue, setTextareaValue] = useState("");
-  const [ganador, setGanador] = useState(null);
-  const [modalMensaje, setModalMensaje] = useState("");
-  const [mostrarModal, setMostrarModal] = useState(false);
+export default function ListRaffle() {
+  const [participantsList, setParticipantsList] = useState("");
+  const [pendingWinner, setPendingWinner] = useState(null);
+  const [timer, setTimer] = useState(0);
+  const [intervalId, setIntervalId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
-  const handleTextareaChange = (e) => {
-    setTextareaValue(e.target.value);
+  const fileInputRef = useRef(null);
+  const [activeTab, setActiveTab] = useState("list");
+
+  useEffect(() => {
+    if (pendingWinner) {
+      setTimer(0);
+      const id = setInterval(() => {
+        setTimer((prev) => prev + 1);
+      }, 1000);
+      setIntervalId(id);
+    } else {
+      clearInterval(intervalId);
+    }
+    return () => clearInterval(intervalId);
+  }, [pendingWinner]);
+
+  const runRaffle = () => {
+    const participants = participantsList
+      .split(/\n+/)
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+
+    if (participants.length === 0) {
+      alert("Por favor, ingresa participantes antes de hacer el sorteo.");
+      return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * participants.length);
+    const selectedWinner = participants[randomIndex];
+    setPendingWinner(selectedWinner);
   };
 
-  const handleTextareaBlur = () => {
-    const lista = textareaValue
-      .split("\n")
-      .map((p) => p.trim())
-      .filter((p) => p !== "");
-    setParticipantes(lista);
+  const confirmRemoveWinner = () => {
+    const updatedList = participantsList
+      .split(/\n+/)
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0 && line !== pendingWinner);
+    setParticipantsList(updatedList.join("\n"));
+    setPendingWinner(null);
+    setShowModal(false);
+  };
+
+  const cancelModal = () => {
+    setPendingWinner(null);
+    setShowModal(false);
+  };
+
+  const handleAcceptWinner = () => {
+    setShowModal(true); // Abrimos la modal
+  };
+
+  const handleRemoveWinner = () => {
+    const updatedList = participantsList
+      .split(/\n+/)
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0 && line !== pendingWinner);
+    setParticipantsList(updatedList.join("\n"));
+    setPendingWinner(null);
   };
 
   const handleFileUpload = (event) => {
@@ -35,211 +74,166 @@ export function ListRaffle() {
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      const contenido = e.target.result;
-      const lista = contenido
+      const content = e.target.result
         .split(/\r?\n/)
         .map((line) => line.trim())
-        .filter((line) => line !== "");
-
-      console.log("Contenido CSV cargado:", lista);
-      setParticipantes(lista);
-      setTextareaValue(lista.join("\n"));
+        .filter((line) => line !== "")
+        .join("\n");
+      setParticipantsList(content);
     };
     reader.readAsText(file);
   };
 
-  const realizarSorteo = () => {
-    if (participantes.length === 0) {
-      alert("Debe haber al menos un participante.");
-      return;
-    }
-    const indiceGanador = Math.floor(Math.random() * participantes.length);
-    setGanador(participantes[indiceGanador]);
-  };
-
-  const descartarGanador = () => {
-    const nuevaLista = participantes.filter((p) => p !== ganador);
-    setParticipantes(nuevaLista);
-    setTextareaValue(nuevaLista.join("\n"));
-    setGanador(null);
-    setModalMensaje(
-      `El ganador "${ganador}" ha sido descartado y eliminado de la lista.`
-    );
-    setMostrarModal(true);
-  };
-
-  const aceptarGanador = () => {
-    const nuevaLista = participantes.filter((p) => p !== ganador);
-    setParticipantes(nuevaLista);
-    setTextareaValue(nuevaLista.join("\n"));
-
-    setGanador(null);
-
-    setTimeout(() => {
-      setModalMensaje(`El ganador "${ganador}" ha sido eliminado de la lista.`);
-      setMostrarModal(true);
-    }, 100);
-  };
-  const closeModal = () => {
-    setMostrarModal(false);
-  };
-
   return (
-    <VStack spacing={4} align="start" p={5}>
-      <Box width="300px">
-        <Text fontWeight="bold">Participantes:</Text>
-        <Textarea
-          placeholder="Ingrese un participante por línea..."
-          value={textareaValue}
-          onChange={handleTextareaChange}
-          onBlur={handleTextareaBlur}
-        />
-      </Box>
-
-      <HStack spacing={3}>
-        <Button
-          color="black"
-          backgroundColor="teal.400"
-          _hover={{ bg: "teal.500" }}
-          onClick={realizarSorteo}
-          isDisabled={participantes.length === 0}
-        >
-          Sortear
-        </Button>
-
-        <Button
-          color="black"
-          backgroundColor="teal.400"
-          _hover={{ bg: "teal.500" }}
-          as="label"
-          htmlFor="file-upload"
-          variant="outline"
-        >
-          <HiUpload /> Subir archivo
-        </Button>
-        <Input
-          id="file-upload"
-          type="file"
-          accept=".csv"
-          hidden
-          onChange={handleFileUpload}
-        />
-      </HStack>
-
-      {ganador && (
-        <div
-          style={{
-            backgroundColor: "#16a085",
-            color: "teal.500",
-            padding: "20px",
-            borderRadius: "8px",
-            marginTop: "20px",
-            position: "relative",
-            display: "inline-block",
-            maxWidth: "400px",
-          }}
-        >
-          <h3>¡Felicidades!</h3>
-          <p>
-            🎉 El ganador es: <strong>{ganador}</strong> 🎉
-          </p>
-          <div>
-            <button
-              onClick={descartarGanador}
-              style={{
-                backgroundColor: "#48c9b0 ",
-                padding: "10px 15px",
-                border: "none",
-                cursor: "pointer",
-                marginRight: "10px",
-                borderRadius: "5px",
-                transition: "background-color 0.3s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.target.style.backgroundColor = "#1abc9c ")
-              }
-              onMouseLeave={(e) =>
-                (e.target.style.backgroundColor = "#48c9b0 ")
-              }
-            >
-              Descartar
-            </button>
-            <button
-              onClick={aceptarGanador}
-              style={{
-                backgroundColor: "#48c9b0 ",
-                padding: "10px 15px",
-                border: "none",
-                cursor: "pointer",
-                borderRadius: "5px",
-                transition: "background-color 0.3s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.target.style.backgroundColor = "#1abc9c ")
-              }
-              onMouseLeave={(e) =>
-                (e.target.style.backgroundColor = "#48c9b0 ")
-              }
-            >
-              Aceptar
-            </button>
-          </div>
-          <button
-            onClick={descartarGanador}
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-              background: "transparent",
-              border: "none",
-              color: "white",
-              fontSize: "20px",
-            }}
-          >
-            X
-          </button>
+    <div className="prize-wheel-container">
+      <div className="prize-wheel-card">
+        <div className="card-header">
+          <h2 className="card-title">Lista de Participantes</h2>
         </div>
-      )}
-      {mostrarModal && (
-        <div
-          style={{
-            position: "fixed",
-            top: "0",
-            left: "0",
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.5)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "white",
-              padding: "20px",
-              borderRadius: "8px",
-              textAlign: "center",
-            }}
-          >
-            <p>{modalMensaje}</p>
-            <button
-              onClick={closeModal}
-              style={{
-                marginTop: "10px",
-                padding: "5px 10px",
-                backgroundColor: "gray",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              Cerrar
-            </button>
+        <div className="card-content">
+          <div className="tabs">
+            <div className="tabs-list">
+              <button
+                className={`tab-button ${activeTab === "list" ? "active" : ""}`}
+                onClick={() => setActiveTab("list")}
+              >
+                <svg
+                  className="icon"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                >
+                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                </svg>
+                Cargar Listado
+              </button>
+              <button
+                className={`tab-button ${activeTab === "csv" ? "active" : ""}`}
+                onClick={() => setActiveTab("csv")}
+              >
+                <svg
+                  className="icon"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                >
+                  <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                </svg>
+                Cargar CSV
+              </button>
+            </div>
+
+            {activeTab === "list" && (
+              <div className="tab-content">
+                <div className="input-group">
+                  <textarea
+                    value={participantsList}
+                    onChange={(e) => setParticipantsList(e.target.value)}
+                    placeholder="Ingresa los nombres de los participantes, uno por línea"
+                    className="textarea"
+                  ></textarea>
+                  <button onClick={runRaffle} className="button primary">
+                    Iniciar Sorteo
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {activeTab === "csv" && (
+              <div className="tab-content">
+                <div className="file-upload-container">
+                  <div className="file-upload-area">
+                    <label htmlFor="csvFile" className="file-label">
+                      Selecciona un archivo CSV
+                    </label>
+                    <input
+                      id="csvFile"
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".csv,.txt"
+                      onChange={handleFileUpload}
+                      className="file-input"
+                    />
+                    <button
+                      className="button outline"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      Seleccionar Archivo
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
+
+          {pendingWinner && (
+            <div className="winner-announcement">
+              🎉 <strong>Ganador/a:</strong> {pendingWinner}
+              <div
+                style={{ marginTop: "10px", fontSize: "14px", color: "#888" }}
+              >
+                Tiempo transcurrido: {timer} segundo{timer !== 1 && "s"}
+              </div>
+              <div style={{ marginTop: "10px" }}>
+                <button
+                  onClick={handleAcceptWinner}
+                  className="button primary"
+                  style={{ marginRight: "10px" }}
+                >
+                  Aceptar
+                </button>
+                <button onClick={handleRemoveWinner} className="button danger">
+                  Eliminar de la Lista
+                </button>
+              </div>
+            </div>
+          )}
+
+          {showModal && (
+            <div className="custom-modal-backdrop">
+              <div className="custom-modal">
+                <p>¿Deseas eliminar al ganador de la lista?</p>
+                <div className="modal-buttons">
+                  <button
+                    onClick={confirmRemoveWinner}
+                    className="button danger"
+                  >
+                    Sí, eliminar
+                  </button>
+                  <button onClick={cancelModal} className="button outline">
+                    No, mantener
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </VStack>
+      </div>
+
+      <style>{`
+        .custom-modal-backdrop {
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(0,0,0,0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 999;
+        }
+        .custom-modal {
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          text-align: center;
+          box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .modal-buttons {
+          margin-top: 15px;
+          display: flex;
+          gap: 10px;
+          justify-content: center;
+        }
+      `}</style>
+    </div>
   );
 }
-
-export default ListRaffle;

@@ -18,7 +18,14 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  background-image: linear-gradient(to bottom, #bae6fd, #e0f2fe);
+  background: radial-gradient(
+    circle,
+    #d1c7e1,
+    #a5a6d9,
+    #7788c0,
+    #4b4c9b,
+    #2c2d68
+  );
 }
 
 .content-wrapper {
@@ -31,5 +38,72 @@ body {
   font-weight: 700;
   text-align: center;
   margin-bottom: 24px;
-  color: #ca8a04;
+  color: #2c2d68;
+}
+
+.box-container {
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(
+    circle,
+    #d1c7e1,
+    #a5a6d9,
+    #7788c0,
+    #4b4c9b,
+    #2c2d68
+  );
+}
+
+.RaffleCard {
+  display: flex;
+  background: linear-gradient(
+    0.25turn,
+    #a1aae3,
+    #c9caee,
+    #e8e9f8,
+    #dae1f1,
+    #b4c3e4
+  );
+}
+
+.footer {
+  background-color: #2a1c78;
+  color: white;
+  padding: 1.5rem 0;
+  text-align: center;
+  margin-top: auto;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.icon-button {
+  font-size: 1.8rem;
+  color: white;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.icon-button:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.linkedin:hover {
+  background-color: #0077b5;
+}
+
+.github:hover {
+  background-color: #333;
+}
+
+.email:hover {
+  background-color: #d44638;
 }

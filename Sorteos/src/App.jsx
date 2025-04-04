@@ -3,13 +3,18 @@ import Home from "./components/home/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import { Box } from "@chakra-ui/react";
-import { ListRaffle } from "./components/raffles/ListRaffle";
+import ListRaffle from "./components/raffles/ListRaffle";
 import Roulette from "./components/raffles/Roulette";
 // import DuckRace from "./components/raffles/DuckRace";
 import Page from "./components/raffles/Page";
 function App() {
   return (
-    <Box display="flex" flexDirection="column" minHeight="100vh">
+    <Box
+      display="flex"
+      flexDirection="column"
+      minHeight="100vh"
+      className="box-container"
+    >
       <Router>
         <NavBar />
         <Box flex="1">

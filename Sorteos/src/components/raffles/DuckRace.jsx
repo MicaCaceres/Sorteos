@@ -232,11 +232,11 @@ export default function DuckRace() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="button-red button-with-icon"
+                  className="button small outline"
                   onClick={clearAllParticipants}
                   disabled={isRacing}
+                  border-
                 >
-                  <Trash2 size={14} />
                   Limpiar Todo
                 </Button>
               </div>
@@ -246,10 +246,12 @@ export default function DuckRace() {
                     <span className="participant-name">{name}</span>
                     <button
                       onClick={() => removeParticipant(index)}
-                      className="remove-button"
+                      className="button icon"
                       disabled={isRacing}
                     >
-                      <X size={16} />
+                      <svg viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                      </svg>
                     </button>
                   </div>
                 ))}
@@ -262,7 +264,7 @@ export default function DuckRace() {
           <Button
             onClick={startRace}
             disabled={isRacing || participants.length < 2}
-            className="button-green button-full-width button-large-padding"
+            className="button button-full-width button-large-padding"
           >
             {isRacing ? "Corriendo..." : "¡Iniciar Carrera!"}
           </Button>

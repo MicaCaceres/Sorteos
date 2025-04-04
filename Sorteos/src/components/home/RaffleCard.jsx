@@ -8,6 +8,7 @@ import {
   Stack,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 export const RaffleCard = ({
   image,
@@ -15,9 +16,10 @@ export const RaffleCard = ({
   name,
   description = [],
   characteristics = [],
+  redirect,
 }) => {
   const flexDirection = useBreakpointValue({ base: "column", md: "row" });
-
+  const navigate = useNavigate();
   return (
     <Card.Root
       display="flex"
@@ -25,8 +27,10 @@ export const RaffleCard = ({
       overflow="hidden"
       maxW="xl"
       border="1px solid"
+      borderColor="#b4c3e4"
       p={{ base: 4, md: 10 }}
       alignItems="center"
+      className="RaffleCard"
     >
       <Image
         objectFit="cover"
@@ -38,8 +42,10 @@ export const RaffleCard = ({
       />
       <Box flex="1" mt={{ base: 4, md: 0 }} ml={{ md: 4 }}>
         <Card.Body>
-          <Card.Title mb="2">{name}</Card.Title>
-          <Card.Description>
+          <Card.Title mb="2" color="#2c2d68">
+            {name}
+          </Card.Title>
+          <Card.Description color={"#4b4c9b"}>
             {description.map((item, index) => (
               <span key={index}>
                 {item}.
@@ -49,17 +55,21 @@ export const RaffleCard = ({
           </Card.Description>
           <HStack mt="4" wrap="wrap">
             {characteristics.map((item, index) => (
-              <Badge key={index}>{item}</Badge>
+              <Badge key={index} color={"white"} fontSize="sm" bg={"#2c2d68"}>
+                {item}
+              </Badge>
             ))}
           </HStack>
         </Card.Body>
         <Card.Footer mt={{ base: 4, md: 2 }}>
           <Button
-            colorScheme="blue"
-            _hover={{ bg: "blue.500" }}
-            w={{ base: "100%", md: "auto" }}
+            bg="#2c2d68"
+            _hover={{ bg: "#4b4c9b" }}
+            // w={{ base: "100%", md: "auto" }}
+            width="100px"
+            onClick={() => navigate(redirect)}
           >
-            Realizar Sorteo
+            Sortear
           </Button>
         </Card.Footer>
       </Box>

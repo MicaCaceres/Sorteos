@@ -1,6 +1,7 @@
 "use client";
 import DuckRace from "./DuckRace";
 import "../../css/duck-race.css";
+import "../../css/globals.css";
 
 export default function Page() {
   return (

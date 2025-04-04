@@ -12,18 +12,28 @@ export default function Roulette() {
   const [activeTab, setActiveTab] = useState("list");
   const fileInputRef = useRef(null);
 
+  const MAX_PARTICIPANTS = 25;
+
   const loadParticipantsList = () => {
     if (!participantsList.trim()) return;
 
-    // Split by newlines and filter out empty entries
     const newParticipants = participantsList
       .split(/\n+/)
       .map((name) => name.trim())
-      .filter((name) => name && !participants.includes(name));
+      .filter((name) => name); // permitimos repetidos
 
-    if (newParticipants.length > 0) {
-      setParticipants([...participants, ...newParticipants]);
+    const availableSlots = MAX_PARTICIPANTS - participants.length;
+    const limitedParticipants = newParticipants.slice(0, availableSlots);
+
+    if (limitedParticipants.length > 0) {
+      setParticipants([...participants, ...limitedParticipants]);
       setParticipantsList("");
+    }
+
+    if (newParticipants.length > availableSlots) {
+      alert(
+        `Solo se añadieron ${availableSlots} participantes para no exceder el límite de ${MAX_PARTICIPANTS}.`
+      );
     }
   };
 
@@ -37,15 +47,21 @@ export default function Roulette() {
       const lista = contenido
         .split(/\r?\n/)
         .map((line) => line.trim())
-        .filter((line) => line !== "");
+        .filter((line) => line !== ""); // permitimos repetidos
 
-      console.log("Contenido CSV cargado:", lista);
-      setParticipants([
-        ...participants,
-        ...lista.filter((name) => !participants.includes(name)),
-      ]);
+      const availableSlots = MAX_PARTICIPANTS - participants.length;
+      const limitedLista = lista.slice(0, availableSlots);
 
-      // Reset file input
+      if (limitedLista.length > 0) {
+        setParticipants([...participants, ...limitedLista]);
+      }
+
+      if (lista.length > availableSlots) {
+        alert(
+          `Solo se añadieron ${availableSlots} participantes para no exceder el límite de ${MAX_PARTICIPANTS}.`
+        );
+      }
+
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -70,31 +86,25 @@ export default function Roulette() {
     setSpinning(true);
     setHasSpun(true);
 
-    // Random number of full rotations (between 5 and 10) plus a random angle
     const spinAngle = 3600 + Math.floor(Math.random() * 3600);
     const finalAngle = rotationAngle + spinAngle;
     setRotationAngle(finalAngle);
 
-    // Stop spinning after animation
     setTimeout(() => {
       setSpinning(false);
-    }, 5000); // 5 seconds for the animation
+    }, 5000);
   };
 
-  // Get the current winner based on the wheel position
   const getCurrentWinner = () => {
     if (participants.length === 0) return null;
 
     const segmentAngle = 360 / participants.length;
-    const normalizedAngle = ((rotationAngle % 360) + 360) % 360; // Asegura valores entre 0-359
+    const normalizedAngle = ((rotationAngle % 360) + 360) % 360;
 
-    // El indicador apunta exactamente a 270° en el SVG (arriba)
     const indicatorAngle = 270;
 
-    // Ajustamos el ángulo para que corresponda con la posición del indicador
     const adjustedAngle = (indicatorAngle - normalizedAngle + 360) % 360;
 
-    // Determinamos el índice del segmento
     const segmentIndex =
       Math.floor(adjustedAngle / segmentAngle) % participants.length;
 
@@ -118,13 +128,10 @@ export default function Roulette() {
     const x2 = centerX + radius * Math.cos(endRad);
     const y2 = centerY + radius * Math.sin(endRad);
 
-    // Determine if the arc should be drawn as a large arc
     const largeArcFlag = segmentAngle > 180 ? 1 : 0;
 
-    // Create the SVG path for the segment
     const path = `M ${centerX} ${centerY} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
 
-    // Create a colorful wheel with different colors for each segment
     const colors = [
       "#FF5252",
       "#4CAF50",
@@ -168,7 +175,6 @@ export default function Roulette() {
     );
   });
 
-  // Get current winner for display - only if the wheel has been spun
   const currentWinner =
     !spinning && hasSpun && participants.length > 0 ? getCurrentWinner() : null;
 
@@ -269,7 +275,7 @@ export default function Roulette() {
             <>
               <div className="participants-header">
                 <h3 className="participants-title">
-                  Participantes ({participants.length})
+                  Participantes ({participants.length}/{MAX_PARTICIPANTS})
                 </h3>
                 <button
                   className="button small outline"
@@ -308,14 +314,11 @@ export default function Roulette() {
       </div>
 
       <div className="wheel-container">
-        {/* Wheel container with indicator at the TOP pointing DOWN */}
         <div className="wheel-wrapper">
-          {/* Indicator at the TOP pointing DOWN */}
           <div className="wheel-indicator">
             <div className="indicator-triangle"></div>
           </div>
 
-          {/* SVG Wheel */}
           <svg
             width="300"
             height="300"
@@ -328,14 +331,11 @@ export default function Roulette() {
                 : "none",
             }}
           >
-            {/* Wheel segments */}
             {wheelSegments}
 
-            {/* Wheel center */}
             <circle cx="150" cy="150" r="15" fill="#333" />
           </svg>
 
-          {/* Current winner display - only shown if wheel has been spun */}
           {currentWinner && !spinning && (
             <div className="winner-display">
               <p className="winner-text">
@@ -344,7 +344,6 @@ export default function Roulette() {
             </div>
           )}
 
-          {/* Empty state */}
           {participants.length === 0 && (
             <div className="empty-state">
               <p className="empty-text">Agrega participantes para comenzar</p>
