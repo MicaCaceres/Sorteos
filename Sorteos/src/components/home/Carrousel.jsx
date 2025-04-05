@@ -16,17 +16,23 @@ const Carrousel = () => {
   };
 
   return (
-    <Slider {...settings}>
-      {gifList.map((gif, index) => (
-        <div key={index}>
-          <img
-            src={gif}
-            alt={`gif-${index}`}
-            style={{ width: "100%", height: "auto" }}
-          />
-        </div>
-      ))}
-    </Slider>
+    <div style={{ width: "1800px", margin: "0 auto" }}>
+      <Slider {...settings}>
+        {gifList.map((gif, index) => (
+          <div key={index}>
+            <img
+              src={gif}
+              alt={`gif-${index}`}
+              style={{
+                width: "100%",
+                height: "auto",
+                maxHeight: "600px",
+              }}
+            />
+          </div>
+        ))}
+      </Slider>
+    </div>
   );
 };
 export default Carrousel;
