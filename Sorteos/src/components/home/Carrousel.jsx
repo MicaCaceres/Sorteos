@@ -2,7 +2,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
-const gifList = ["/public/Unite.gif", "/public/Sorteos.gif"];
+const gifList = ["./public/Unite.gif", "./public/Sorteos.gif"];
 
 const Carrousel = () => {
   const settings = {
