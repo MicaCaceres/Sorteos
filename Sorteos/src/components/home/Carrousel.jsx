@@ -12,11 +12,24 @@ const Carrousel = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    height: 300,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   return (
-    <div style={{ width: "1800px", margin: "0 auto" }}>
+    <div style={{ maxWidth: "100%", width: "100%", margin: "0 auto" }}>
       <Slider {...settings}>
         {gifList.map((gif, index) => (
           <div key={index}>
@@ -27,6 +40,7 @@ const Carrousel = () => {
                 width: "100%",
                 height: "auto",
                 maxHeight: "600px",
+                objectFit: "contain",
               }}
             />
           </div>
@@ -35,4 +49,5 @@ const Carrousel = () => {
     </div>
   );
 };
+
 export default Carrousel;
