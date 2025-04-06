@@ -29,7 +29,7 @@ const Carrousel = () => {
   };
 
   return (
-    <div style={{ maxWidth: "100%", width: "100%", margin: "0 auto" }}>
+    <div style={{ maxWidth: "100%", width: "90%", margin: "0 auto" }}>
       <Slider {...settings}>
         {gifList.map((gif, index) => (
           <div key={index}>
