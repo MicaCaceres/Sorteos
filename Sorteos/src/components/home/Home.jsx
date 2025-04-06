@@ -15,9 +15,6 @@ const Home = () => {
         >
           Bienvenido a la Página de Sorteos
         </Text>
-        {/* <Text mt={4} textAlign={"center"} color={"#4b4c9b"} fontWeight="bold">
-          Aquí puedes ver nuestros sorteos disponibles.
-        </Text> */}
       </Box>
       <Carrousel />
       <Box id="sorteos" p={8}>

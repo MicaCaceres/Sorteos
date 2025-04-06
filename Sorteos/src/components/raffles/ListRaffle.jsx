@@ -58,6 +58,9 @@ export default function ListRaffle() {
   const handleAcceptWinner = () => {
     setShowModal(true); // Abrimos la modal
   };
+  const clearAllParticipants = () => {
+    setParticipantsList([]);
+  };
 
   const handleRemoveWinner = () => {
     const updatedList = participantsList
@@ -132,6 +135,12 @@ export default function ListRaffle() {
                     placeholder="Ingresa los nombres de los participantes, uno por línea"
                     className="textarea"
                   ></textarea>
+                  <button
+                    className="button small outline"
+                    onClick={clearAllParticipants}
+                  >
+                    Limpiar Todo
+                  </button>
                   <button onClick={runRaffle} className="button primary">
                     Iniciar Sorteo
                   </button>

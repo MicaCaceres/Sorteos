@@ -53,9 +53,15 @@ export const RaffleCard = ({
               </span>
             ))}
           </Card.Description>
-          <HStack mt="4" wrap="wrap">
+          <HStack mt="5" wrap="wrap">
             {characteristics.map((item, index) => (
-              <Badge key={index} color={"white"} fontSize="sm" bg={"#2c2d68"}>
+              <Badge
+                key={index}
+                color={"white"}
+                fontSize="sm"
+                bg={"#7788c0"}
+                p={1}
+              >
                 {item}
               </Badge>
             ))}
